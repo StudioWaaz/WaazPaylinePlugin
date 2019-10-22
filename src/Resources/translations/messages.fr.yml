@@ -1,0 +1,10 @@
+waaz:
+    payline:
+        environment: Environnement
+        access_key: Clé de sécurité
+        merchant_id: ID marchand
+        key_version: Key version
+        gateway_label: System Pay
+        production: Production
+        test: Test
+        simulation: Simulation

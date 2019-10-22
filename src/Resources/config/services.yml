@@ -1,0 +1,46 @@
+services:
+    waaz.payline.form.type.gateway_configuration:
+        class: Waaz\PaylinePlugin\Form\Type\PaylineGatewayConfigurationType
+        public: true
+        tags:
+            - { name: sylius.gateway_configuration_type, type: payline, label: waaz.payline.gateway_label }
+            - { name: form.type }
+
+    waaz.payline.gateway_factory:
+        class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
+        public: true
+        arguments: [Waaz\PaylinePlugin\PaylineGatewayFactory]
+        tags:
+            - { name: payum.gateway_factory_builder, factory: payline }
+
+    waaz.payline.action.capture:
+        class: Waaz\PaylinePlugin\Action\CaptureAction
+        public: true
+        arguments:
+            - '@payum'
+            - '@waaz.payline.bridge.payline_bridge'
+            - '@router'
+        tags:
+            - { name: payum.action, factory: payline, alias: payum.action.capture }
+
+    waaz.payline.action.notify:
+        class: Waaz\PaylinePlugin\Action\NotifyAction
+        public: true
+        arguments:
+            - '@sm.factory'
+        tags:
+            - { name: payum.action, factory: payline, alias: payum.action.notify }
+
+    waaz.payline.action.status:
+        class: Waaz\PaylinePlugin\Action\StatusAction
+        public: true
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: payum.action, factory: payline, alias: payum.action.status }
+
+    waaz.payline.bridge.payline_bridge:
+        class: Waaz\PaylinePlugin\Bridge\PaylineBridge
+        public: true
+        arguments:
+            - '@request_stack'
