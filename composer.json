@@ -1,5 +1,5 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "waaz/payline-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
     "description": "Acme example plugin for Sylius.",
