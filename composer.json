@@ -1,9 +1,14 @@
 {
     "name": "waaz/payline-plugin",
     "type": "sylius-plugin",
-    "keywords": ["sylius", "sylius-plugin"],
-    "description": "Acme example plugin for Sylius.",
+    "description": "Payline payment plugin for Sylius",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Andde Zudaire",
+            "email": "dev2@studiowaaz.com"
+        }
+    ],
     "require": {
         "php": "^7.2",
 
