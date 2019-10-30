@@ -32,7 +32,7 @@ interface PaylineBridgeInterface
     /**
      * @return bool
      */
-    public function isPostMethod();
+    public function isGetMethod();
 
     /**
      * @return string
