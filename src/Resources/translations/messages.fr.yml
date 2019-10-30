@@ -4,7 +4,7 @@ waaz:
         access_key: Clé de sécurité
         merchant_id: ID marchand
         key_version: Key version
-        gateway_label: System Pay
+        gateway_label: Payline
         production: Production
         test: Test
         simulation: Simulation

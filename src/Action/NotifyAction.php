@@ -58,7 +58,7 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 
         if ($this->paylineBridge->paymentVerification()) {
 
-            $paylineSDK = new PaylineSDK($this->paylineBridge->getMerchantId(), $this->paylineBridge->getAccessKey(), null, null, null, null, 'HOMO');
+            $paylineSDK = new PaylineSDK($this->paylineBridge->getMerchantId(), $this->paylineBridge->getAccessKey(), null, null, null, null, $this->paylineBridge->getEnvironment());
 
             $params['version'] = 3; 
             $params['token'] = $this->paylineBridge->paymentVerification();

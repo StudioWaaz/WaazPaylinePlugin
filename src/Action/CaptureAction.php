@@ -118,6 +118,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $paiementContractNumber = $this->paylineBridge->getPaiementContractNumber();
 
         $automaticResponseUrl = $notifyToken->getTargetUrl();
+        
         $currencyCode = $payment->getCurrencyCode();
 
         $targetUrl = $this->router->generate('sylius_shop_order_thank_you', [], UrlGeneratorInterface::ABSOLUTE_URL);

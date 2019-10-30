@@ -68,7 +68,7 @@ final class PaylineBridge implements PaylineBridgeInterface
         if ($this->isPostMethod()) {
 
             $postdata = $this->getPostData();
-            var_dump($this->requestStack);exit;
+
             return $postdata['token'];
         }
 
@@ -93,7 +93,7 @@ final class PaylineBridge implements PaylineBridgeInterface
      {
        $currentRequest = $this->requestStack->getCurrentRequest();
 
-       return $currentRequest->request->all();
+       return $currentRequest->query->all();
      }
 
     /**

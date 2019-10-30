@@ -82,7 +82,7 @@ class Payline
 
         $request = $this->getRequest();
         // create an instance
-        $paylineSDK = new PaylineSDK($request['merchant_id'], $request['access_key'], null, null, null, null, 'HOMO');
+        $paylineSDK = new PaylineSDK($request['merchant_id'], $request['access_key'], null, null, null, null, $request['environment']);
 
         // call a web service, for example doWebPayment
         $doWebPaymentRequest = array();
