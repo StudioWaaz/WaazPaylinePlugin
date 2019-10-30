@@ -65,9 +65,9 @@ final class PaylineBridge implements PaylineBridgeInterface
      */
     public function paymentVerification()
     {
-        if ($this->isPostMethod()) {
+        if ($this->isGetMethod()) {
 
-            $postdata = $this->getPostData();
+            $postdata = $this->getQueryData();
 
             return $postdata['token'];
         }
@@ -78,18 +78,18 @@ final class PaylineBridge implements PaylineBridgeInterface
     /**
      * {@inheritDoc}
      */
-    public function isPostMethod()
+    public function isGetMethod()
     {
 
         $currentRequest = $this->requestStack->getCurrentRequest();
 
-        return $currentRequest->isMethod('POST');
+        return $currentRequest->isMethod('GET');
     }
 
     /**
      * @return array
      */
-     public function getPostData()
+     public function getQueryData()
      {
        $currentRequest = $this->requestStack->getCurrentRequest();
 
