@@ -91,7 +91,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 
         if ($transactionReference !== null) {
 
-            if ($this->paylineBridge->isPostMethod()) {
+            if ($this->paylineBridge->isGetMethod()) {
 
                 $model['status'] = $this->paylineBridge->paymentVerification() ?
                     PaymentInterface::STATE_COMPLETED : PaymentInterface::STATE_CANCELLED;
