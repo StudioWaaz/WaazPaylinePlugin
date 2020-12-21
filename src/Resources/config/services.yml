@@ -44,3 +44,5 @@ services:
         public: true
         arguments:
             - '@request_stack'
+            - '%kernel.root_dir%'
+          

@@ -9,6 +9,7 @@ use Payline\PaylineSDK;
  */
 class Payline
 {
+    private $projectDir;
 
     /**
      * @var array
@@ -42,10 +43,12 @@ class Payline
      */
     private $token;
 
-    public function __construct($key)
+    public function __construct($key, $projectDir)
     {
         $this->key = $key;
+        $this->projectDir = $projectDir;
         $this->mandatoryFields['order']['date'] = gmdate('d/m/Y h:i');
+
     }
 
     /**
@@ -55,7 +58,7 @@ class Payline
     public function setFields($fields)
     {
 
-        foreach ($fields as $field => $value){            
+        foreach ($fields as $field => $value){
             if (is_array($value)){
                 foreach ($value as $field2 => $value2){
                     if (empty($this->mandatoryFields[$field2]))
@@ -82,11 +85,11 @@ class Payline
 
         $request = $this->getRequest();
         // create an instance
-        $paylineSDK = new PaylineSDK($request['merchant_id'], $request['access_key'], null, null, null, null, $request['environment']);
+        $paylineSDK = new PaylineSDK($request['merchant_id'], $request['access_key'], null, null, null, null, $request['environment'], $this->projectDir.'/../var/log/');
 
         // call a web service, for example doWebPayment
         $doWebPaymentRequest = array();
-        
+
         // PAYMENT
         $doWebPaymentRequest['payment']['amount'] = $request['payment']['amount']; // this value has to be an integer amount is sent in cents
         $doWebPaymentRequest['payment']['currency'] = $request['payment']['currency']; // ISO 4217 code for euro
@@ -102,7 +105,7 @@ class Payline
         // CONTRACT NUMBERS
         $doWebPaymentRequest['payment']['contractNumber'] = $request['payment']['contractNumber'];
 
-        // URL 
+        // URL
         $doWebPaymentRequest['cancelURL'] = $request['cancel_url'];
         $doWebPaymentRequest['returnURL'] = $request['return_url'];
         $doWebPaymentRequest['notificationURL'] = $request['notification_url'];
@@ -115,6 +118,6 @@ class Payline
 
         return $return;
 
-        
+
     }
 }

@@ -45,11 +45,17 @@ final class PaylineBridge implements PaylineBridgeInterface
     private $paiementContractNumber;
 
     /**
+     * @var string
+     */
+    private $projectDir;
+
+    /**
      * @param RequestStack $requestStack
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, string $projectDir)
     {
         $this->requestStack = $requestStack;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -57,7 +63,7 @@ final class PaylineBridge implements PaylineBridgeInterface
      */
     public function createPayline($accessKey)
     {
-        return new Payline($accessKey);
+        return new Payline($accessKey, $this->projectDir);
     }
 
     /**
