@@ -21,7 +21,6 @@ use Payum\Core\Request\Notify;
 use Sylius\Component\Payment\PaymentTransitions;
 use Webmozart\Assert\Assert;
 use SM\Factory\FactoryInterface;
-use Payline\PaylineSDK;
 
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
@@ -58,24 +57,30 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 
         if ($this->paylineBridge->paymentVerification()) {
 
-            $paylineSDK = new PaylineSDK($this->paylineBridge->getMerchantId(), $this->paylineBridge->getAccessKey(), null, null, null, null, $this->paylineBridge->getEnvironment());
+          $accessKey = $this->paylineBridge->getAccessKey();
 
-            $params['version'] = 3; 
-            $params['token'] = $this->paylineBridge->paymentVerification();
+          $payline = $this->paylineBridge->createPayline($accessKey);
 
+          $payline->setFields([
+            'merchant_id' => $this->paylineBridge->getMerchantId(),
+            'access_key' => $this->paylineBridge->getAccessKey(),
+            'environment' => $this->paylineBridge->getEnvironment()
+          ]);
+          $params['version'] = '3';
+          $params['token'] = $this->paylineBridge->paymentVerification();
 
-            $webPaymentDetails = $paylineSDK->getWebPaymentDetails($params);
+          $webPaymentDetails = $payline->getPaymentDetails($params);
 
-            if($webPaymentDetails['result']['code'] == '00000'){
+          if($webPaymentDetails['result']['code'] == '00000'){
 
-                /** @var PaymentInterface $payment */
-                $payment = $request->getFirstModel();
+              /** @var PaymentInterface $payment */
+              $payment = $request->getFirstModel();
 
-                Assert::isInstanceOf($payment, PaymentInterface::class);
+              Assert::isInstanceOf($payment, PaymentInterface::class);
 
-                $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH)->apply(PaymentTransitions::TRANSITION_COMPLETE);
-                
-            }
+              $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH)->apply(PaymentTransitions::TRANSITION_COMPLETE);
+
+          }
         }
     }
 

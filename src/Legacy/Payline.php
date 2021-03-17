@@ -120,4 +120,15 @@ class Payline
 
 
     }
+
+    public function getPaymentDetails($params)
+    {
+      $request = $this->getRequest();
+      // create an instance
+      $paylineSDK = new PaylineSDK($request['merchant_id'], $request['access_key'], null, null, null, null, $request['environment'], $this->projectDir.'/../var/log/');
+
+      $webPaymentDetails = $paylineSDK->getWebPaymentDetails($params);
+
+      return $webPaymentDetails;
+    }
 }
