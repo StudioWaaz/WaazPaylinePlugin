@@ -1,2 +1,0 @@
-imports:
-    - { resource: "@WaazSyliusMondialRelayPlugin/Resources/config/services.yml" }
