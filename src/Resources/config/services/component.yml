@@ -1,0 +1,9 @@
+services:
+    waaz_sylius_mondial_relay_plugin.repository.pickup:
+        class: Waaz\SyliusMondialRelayPlugin\Repository\PickupRepository
+
+    waaz_sylius_mondial_relay_shipping_rates.form.type.weight:
+        class: Waaz\SyliusMondialRelayPlugin\Form\Type\Shipping\WeightType
+        public: true
+        tags:
+            - { name: form.type }
