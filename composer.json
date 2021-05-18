@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^7.2",
-
-        "sylius/sylius": "^1.4"
+        "sylius/sylius": "^1.4",
+        "monext/payline-sdk": "^4.59"
     },
     "require-dev": {
         "behat/behat": "^3.4",
