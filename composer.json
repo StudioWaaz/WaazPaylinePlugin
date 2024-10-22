@@ -40,6 +40,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "Waaz\\PaylinePlugin\\": "src/",
             "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
         }
     },
