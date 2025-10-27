@@ -26,13 +26,6 @@ framework:
         storage_id: session.storage.mock_file
     test: ~
 
-swiftmailer:
-    disable_delivery: true
-    logging: true
-    spool:
-        type: file
-        path: "%kernel.cache_dir%/spool"
-
 doctrine:
     dbal:
         driver: "pdo_sqlite"
