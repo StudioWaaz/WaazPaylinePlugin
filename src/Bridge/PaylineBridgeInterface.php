@@ -10,7 +10,7 @@
 
 namespace Waaz\PaylinePlugin\Bridge;
 
-use Waaz\PaylinePlugin\Legacy\SimplePay;
+use Waaz\PaylinePlugin\Legacy\Payline;
 
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
@@ -20,7 +20,7 @@ interface PaylineBridgeInterface
     /**
      * @param string $accessKey
      *
-     * @return SimplePay
+     * @return Payline
      */
     public function createPayline($accessKey);
 

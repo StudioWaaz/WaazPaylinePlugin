@@ -55,7 +55,9 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
         /** @var $request Notify */
         RequestNotSupportedException::assertSupports($this, $request);
 
-        if ($this->paylineBridge->paymentVerification()) {
+        $verificationToken = $this->paylineBridge->paymentVerification();
+
+        if ($verificationToken) {
 
           $accessKey = $this->paylineBridge->getAccessKey();
 
@@ -67,18 +69,28 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
             'environment' => $this->paylineBridge->getEnvironment()
           ]);
           $params['version'] = '3';
-          $params['token'] = $this->paylineBridge->paymentVerification();
+          $params['token'] = $verificationToken;
 
           $webPaymentDetails = $payline->getPaymentDetails($params);
 
-          if($webPaymentDetails['result']['code'] == '00000'){
+          if (($webPaymentDetails['result']['code'] ?? null) === '00000') {
 
-              /** @var PaymentInterface $payment */
-              $payment = $request->getFirstModel();
+               /** @var PaymentInterface $payment */
+               $payment = $request->getFirstModel();
 
-              Assert::isInstanceOf($payment, PaymentInterface::class);
+               Assert::isInstanceOf($payment, PaymentInterface::class);
 
-              $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH)->apply(PaymentTransitions::TRANSITION_COMPLETE);
+                // A repeated notification for an already completed payment
+                // is harmless. Any other invalid transition must bubble up so
+                // Symfony returns HTTP 500 and Payline can retry it.
+                if ($payment->getState() === PaymentInterface::STATE_COMPLETED) {
+                    return;
+                }
+
+                $this->stateMachineFactory->get(
+                    $payment,
+                    PaymentTransitions::GRAPH
+                )->apply(PaymentTransitions::TRANSITION_COMPLETE);
 
           }
         }

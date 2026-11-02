@@ -101,7 +101,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
                 return;
             }
 
-            if ($model['status'] === PaymentInterface::STATE_COMPLETED) {
+            if (($model['status'] ?? null) === PaymentInterface::STATE_COMPLETED) {
 
                 return;
             }
@@ -127,7 +127,8 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         //$targetUrl = $request->getToken()->getTargetUrl();
         $amount = $payment->getAmount();
 
-        $transactionReference = $payment->getOrder()->getId();
+        // Use the payment ID so each retry gets a unique Payline reference.
+        $transactionReference = $payment->getId();
 
         $model['transactionReference'] = $transactionReference;
 
